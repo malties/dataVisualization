@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Traffic Visualizer</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js">
+    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+    <link href="map.css" rel="stylesheet">
+</head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+<script src="Queue.js"></script>
+<script>
+    var receivedJson = Array();
+    var map;
+    var stuff = Array();
+    var reconnectTimeout = 2000;
+    var timeout;
+    var pauseMapBoolean = new Boolean(false);
+    console.log(pauseMapBoolean);
+    var pauseQueue = new Queue();
+    var popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+    mapPauseToggle = function() {
+        pauseMapBoolean = !pauseMapBoolean;
+        console.log(pauseMapBoolean);
+    }
+
+    openDataStream = function() {
+
+        function onFailure(message) {
+            console.log("connection is lost")
+            setTimeout(MQTTconnect, reconnectTimeout)
+        }
+        // Create a client instance
+        client = new Paho.MQTT.Client("test.mosquitto.org", 8080, "clientId");
+
+        function MQTTconnect() {
+
+            var options = {
+
+                onSuccess: onConnect,
+                onFailure: onFailure,
+            };
+            client.connect(options);
+
+        }
+
+
+        // set callback handlers
+        //client.onConnectionLost = onConnectionLost;
+        client.onMessageArrived = onMessageArrived;
+
+        // connect the client
+        client.connect({
+            onSuccess: onConnect,
+            keepAliveInterval: 60
+        });
+
+
+        // called when the client connects
+        function onConnect() {
+            // Once a connection has been made, make a subscription and send a message.
+            console.log("onConnect");
+            client.subscribe("caller/points");
+        }
+
+        // called to disconnect client
+        function onDisconnect() {
+            console.log("onDisconnect");
+            client.unsubscribe("caller/point");
+        }
+
+        // called when the client loses its connection
+        //function onConnectionLost(responseObject) {
+        //  if (responseObject.errorCode !== 0) {
+        //    console.log("onConnectionLost:"+responseObject.errorMessage);
+        //}
+        //}
+
+        // called when a message arrives
+        function onMessageArrived(message) {
+            //push the received message into an array
+            receivedJson.push(message);
+            //parse the data received
+            var jsonParsed = JSON.parse(message.payloadString);
+            console.log("Received data");
+            var id = jsonParsed[jsonParsed.length - 1].id
+            console.log("with id: " + id);
+            var layer = {
+                'id': id,
+                'type': 'line',
+                'source': {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'FeatureCollection',
+                        'features': []
+                    }
+                },
+                'paint': {
+
+                    'line-width': 1,
+                    // Use a get expression (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-get)
+                    // to set the line-color to a feature property value.
+                    'line-color': ['get', 'color']
+                }
+            };
+            var previousWalking = false;
+            for (i = 0; i < jsonParsed.length; i++) {
+                //var depTime = jsonParsed[i].departure.time;
+                //var depDate = jsonParsed[i].departure.date;
+
+                var originLatitude = jsonParsed[i].Origin.lat;
+                var originLongitude = jsonParsed[i].Origin.lng;
+                var origin = [originLongitude, originLatitude];
+
+                var destinationLatitude = jsonParsed[i].Destination.lat;
+                var destinationLongitude = jsonParsed[i].Destination.lng;
+                var destination = [destinationLongitude, destinationLatitude];
+
+
+                //get a unique ID for drawing the points on the map
+                //  var id2 =  jsonParsed[i].id + "a";
+
+                //stuff.push(origin+destination)
+                //if(stuff[i]==stuff+1[i]){
+                //  var color= "red";
+                //}
+
+                if (jsonParsed[i].Status == 'failed') {
+                    console.log("Failed line!");
+                    var color = "red";
+                    var coordinates = [origin, destination];
+
+                    toSet = {
+                        'type': 'Feature',
+                        'properties': {
+                            'description': '<strong>Title</strong><p>Some Text</p>',
+                            'color': color
+                        },
+                        'geometry': {
+                            'type': 'LineString',
+                            'coordinates': coordinates
+                        }
+                    };
+                    layer["source"]["data"]["features"] = [toSet];
+                } else if (jsonParsed[i].Origin.type == "ADR" || jsonParsed[i].Destination.type == "ADR") {
+                    console.log("Walking line!");
+                    var color = "white"; //walking path
+                    var coordinates = [origin, destination];
+
+                    toPush = {
+                        'type': 'Feature',
+                        'properties': {
+                            'description': '<strong>Title</strong><p>Some Text</p>',
+                            'color': color
+                        },
+                        'geometry': {
+                            'type': 'LineString',
+                            'coordinates': coordinates
+                        }
+                    };
+                    layer["source"]["data"]["features"].push(toPush);
+                    previousWalking = true;
+                } else if (jsonParsed[i].Origin.type == "ST" || jsonParsed[i].Destination.type == "ST") {
+                    console.log("Transportation line!");
+                    var color = "lime"; //not walking
+                    var coordinates = [origin, destination];
+
+                    var features = layer["source"]["data"]["features"];
+
+                    if (features.length == 0 || previousWalking) {
+                        features.push({
+                            'type': 'Feature',
+                            'properties': {
+                                'description': '<strong>Title</strong><p>Some Text</p>',
+                                'color': color
+                            },
+                            'geometry': {
+                                'type': 'LineString',
+                                'coordinates': coordinates
+                            }
+                        });
+                    } else {
+                        features[features.length - 1].geometry.coordinates.push(origin);
+                        features[features.length - 1].geometry.coordinates.push(destination);
+                    }
+                    previousWalking = false;
+                }
+            }
+            if (pauseMapBoolean) {
+                map.addLayer(layer);
+                console.log("Layer added!")
+                    // queue.dequeue();
+            } else if (pauseMapBoolean = false) {
+                // queue.enqueue(layer);
+                // console.log("Added to Stack!")
+                onDisconnect();
+            }
+        }
+    }
+
+    enableMap = function() {
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaGFzc2Fuc2VuanUiLCJhIjoiY2szYm80NXpyMDR2dTNibzJ4NnZzZzNxaiJ9.it2mBuuX5TJdEo7Nq03SBg';
+        map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/dark-v9',
+            center: [11.966542, 57.701677],
+            zoom: 10
+
+        });
+
+        //Map style
+        var layerList = document.getElementById("menu");
+        var inputs = layerList.getElementsByTagName("input");
+
+        //Switch Layer function for changing layer according to what user requested
+        function switchLayer(layer) {
+            var layerId = layer.target.id;
+            map.setStyle('mapbox://styles/mapbox/' + layerId);
+        }
+
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].onclick = switchLayer;
+        }
+
+        var nav = new mapboxgl.NavigationControl();
+        map.addControl(nav, 'top-right');
+
+        /*Legend Information for Walking Routes, Bus Routes and 
+          Bottlenecks with specific colors*/
+        map.on('load', function() {
+            var lines = ['Walking Route', 'Bus Route', 'Bottlenecks'];
+            var colors = ['#FFF', '#32CD32', '#F00'];
+            /*Iteration throught the array of lines and addition of 
+              legend elements by specifining the name and a color for each one*/
+            for (i = 0; i < lines.length; i++) {
+                var line = lines[i];
+                var color = colors[i];
+                var item = document.createElement('div');
+                var key = document.createElement('span');
+                key.className = 'legend-key';
+                key.style.backgroundColor = color;
+
+                var value = document.createElement('span');
+                value.innerHTML = line;
+                item.appendChild(key);
+                item.appendChild(value);
+                legend.appendChild(item);
+            }
+
+        });
+
+        // map.on('mouseenter', 'id', function(e) {
+        // // Change the cursor style as a UI indicator.
+        // map.getCanvas().style.cursor = 'pointer';
+
+        // var coordinates = e.features[0].geometry.coordinates.slice();
+        // var description = e.features[0].properties.description;
+
+        // // Ensure that if the map is zoomed out such that multiple
+        // // copies of the feature are visible, the popup appears
+        // // over the copy being pointed to.
+        // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        // coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        // }
+
+        // // Populate the popup and set its coordinates
+        // // based on the feature found.
+        // popup
+        // .setLngLat(coordinates)
+        // .setHTML(description)
+        // .addTo(map);
+        // });
+
+        // map.on('mouseleave', 'places', function() {
+        // map.getCanvas().style.cursor = '';
+        // popup.remove();
+        // });
+
+
+        //new variables used to target the new <span>s for layerInfo using their IDs.
+        var coordinateDisplay = document.getElementById('coord');
+        var descriptionDisplay = document.getElementById('desc');
+
+        // Define the hover attribute
+        var eachLayerId = null;
+
+        map.on('mousemove', 'id', (e) => {
+
+            map.getCanvas().style.cursor = 'pointer';
+            // Set variables equal to the current feature's coordinates, description
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties.description;
+
+            // Check whether features exist
+            if (e.features.length > 0) {
+                // Display the information in the sidebar
+                coordinateDisplay.textContent = coordinates;
+                descriptionDisplay.textContent = description;
+
+                // If eachLayerID for the hovered feature is not null,
+                // use removeFeatureState to reset to the default behavior
+                if (eachLayerID) {
+                    map.removeFeatureState({
+                        source: {
+                            'type': 'geojson'
+                        },
+                        id: eachLayerID
+                    }, {
+                        hover: false
+                    });
+                }
+
+                eachLayerID = null;
+                // Remove the information from the previously hovered feature from the sidebar
+                coordinateDisplay.textContent = '';
+                descriptionDisplay.textContent = '';
+                // Reset the cursor style
+                map.getCanvas().style.cursor = '';
+            }
+        });
+
+
+    }
+</script>
+
+<body onload="enableMap(); openDataStream()">
+    <nav class="navbar navbar-expand-lg navbar-light text-white-50" style="background-color: #343332" fd; id="navbar">
+        <!-- <a class="navbar-brand" color="white">Options</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active button">
+                    <button id="pauseButton" onclick="mapPauseToggle()">Pause Map Toggle</button>
+                    <!-- <a class="nav-link" href="#">Feature 1 <span class="sr-only">(current)</span></a> -->
+                </li>
+                <!-- <li class="nav-item button">
+                <a class="nav-link" href="#">Feature 2</a>
+            </li>
+            <li class="nav-item button">
+                <a class="nav-link" href="#"> Feature 3</a>
+            </li> -->
+            </ul>
+        </div>
+    </nav>
+
+    <div class="jumbotron bg-dark text-white-50" id="jumbotron">
+        <center>
+            <h1>Data Visualization of Public Transportation in Gothenburg</h1>
+        </center>
+    </div>
+    <div id='map'></div>
+    <div class="container-fluid">
+        <div class='map-overlay' id='legend'>
+        </div>
+
+        <!--Radio button menu for changing the map style-->
+        <div id="menu">
+            <input id="dark-v9" type="radio" name="rtoggle" value="dark" checked="checked" />
+            <label for="dark">Dark</label>
+            <input id="light-v10" type="radio" name="rtoggle" value="light" />
+            <label for="light">Light</label>
+            <input id="streets-v11" type="radio" name="rtoggle" value="streets" />
+            <label for="streets">Streets</label>
+            <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors" />
+            <label for="outdoors">Outdoors</label>
+            <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" />
+            <label for="satellite">Satellite</label>
+        </div>
+
+        <!-- Information upon Hover -->
+        <!-- <div class='layerInfo'>
+            <div><strong>Coordinates:</strong> <span id='depart'></span></div>
+            <div><strong>Description:</strong> <span id='arrive'></span></div>
+        </div> -->
+
+
+    </div>
+    <br/>
+
+    <footer class="page-footer font-large text-white-50 fixed-bottom">
+        <center>
+            <p>This is a university project designed by Nafen Haj Ahmad, Shab Pompeiano, Stanko Janković, Adelric Wong, Hassan Mualla, and Hannah Maltkvist </p>
+        </center>
+    </footer>
+
+</body>
+
+</html>

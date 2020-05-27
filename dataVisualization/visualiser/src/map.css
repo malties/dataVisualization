@@ -1,0 +1,163 @@
+#pauseButton {
+    background-color: #555555;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+#jumbotron {
+    padding: 20px;
+}
+
+#map {
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    left: 0;
+    right: 0;
+    padding: 0;
+}
+
+#fly {
+    display: block;
+    position: absolute;
+    margin: 0px auto;
+    width: 50%;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    color: white;
+    background: black;
+}
+
+body {
+    background-color: #343A40;
+}
+
+p {
+    font-size: 0.85em;
+    margin: 10px;
+    text-align: left;
+}
+
+.layerInfo {
+    position: absolute;
+    font-family: sans-serif;
+    margin-top: 250px;
+    margin-left: 5px;
+    padding: 5px;
+    width: 20%;
+    border: 2px solid black;
+    font-size: 14px;
+    color: #222;
+    background-color: #fff;
+    border-radius: 3px;
+}
+
+.mapboxgl-popup {
+    max-width: 400px;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+
+/**
+* Set rules for how the map overlays
+* (information box, radio button style menu, and legend) will be displayed
+* on the page. */
+
+.map-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.8);
+    margin-right: 20px;
+    font-family: Arial, sans-serif;
+    overflow: auto;
+    border-radius: 3px;
+}
+
+#menu {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    font-family: "Open Sans", sans-serif;
+    width: 380px;
+    height: 45px;
+    margin-bottom: 100px;
+}
+
+#features {
+    top: 0;
+    height: 100px;
+    margin-top: 20px;
+    width: 250px;
+}
+
+#legend {
+    padding: 10px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    line-height: 18px;
+    height: 75px;
+    margin-bottom: 210px;
+    width: 150px;
+}
+
+.legend-key {
+    display: inline-block;
+    border-radius: 20%;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+}
+
+.navbar-default {
+    background-color: #343332;
+    border-color: #343332;
+    border-radius: 0;
+}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #FFF;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #FFF;
+}
+
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>a:focus {
+    background-color: #343332;
+}
+
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:hover,
+.navbar-default .navbar-nav>.active>a:focus {
+    color: #FFF;
+    background-color: #343332;
+}
+
+.navbar-default .navbar-text {
+    color: #FFF;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: #343332;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: #343332;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #FFF;
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset=utf-8 http-equiv="Content-Language" content="en"/>
+<!-- <link rel="preload" href="/opensans.ttf" as="font"/>
+<link rel="preload" href="/git/_gitohashi/inconsolata.ttf" as="font"/> -->
+<meta name="Description" content="generated-by:gitohashi git web interface, repository: libwebsockets, mode: libwebsocckets-1.7.8.tar.gz, path: libwebsockets, rev: refs/heads/master">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+ <script src="/git/_gitohashi/jg2.js"></script>
+ <link rel="stylesheet" type="text/css" href="/git/_gitohashi/jg2.css"/>
+ <link rel="stylesheet" type="text/css" href="/gitohashi-custom.css"/>
+ <link rel="stylesheet" type="text/css" href="/git/_gitohashi/github.css"/>
+ <link rel="stylesheet" type="text/css" href="/logo.css"/>
+ <script type='text/javascript' src='/git/_gitohashi/highlight.pack.js'></script>
+ <script type='text/javascript' src='/git/_gitohashi/showdown.min.js'></script>
+ <title>LWS git</title>
+</head>
+
+<!-- header region -->
+<div class="header-region">
+<table>
+<tr>
+<td><span><a href="https://libwebsockets.org">
+		<img class='lws-logo'></a>&nbsp;</td>
+<!-- <td><span><img class='repo'></span>&nbsp;</td> -->
+    <td><table><tr>
+	<td><a href="/"><img class="home">Project homepage</a></td>
+	<td><a href="/mailman/listinfo/libwebsockets"><img class="mailinglist">Mailing List</a>&nbsp;</td>
+	<td><a href="https://warmcat.com"><img class='extlink'>Warmcat.com</a>&nbsp;</td>
+	<td><a href="/lws-api-doc-master/html/index.html"><img class="apidocs">API Docs</a>&nbsp;</td>
+	<td><a href="https://github.com/warmcat/libwebsockets"><img class="extlink">Github Mirror</a>&nbsp;</td><td></td></tr>
+	</table></td>
+</tr>
+</table>
+</div>
+
+<!-- HTML results from json processing go here -->
+<div id='result'></div>
+
+<!-- libjsongit2 adds generated JSON inside this div, replacing the comment -->
+<div id='initial-json' class="hidden-tiger">
+{"schema":"libjg2-1",
+"vpath":"/git/",
+"avatar":"/git/avatar/",
+"alang":"",
+"gen_ut":1575217508,
+"reponame":"libwebsockets",
+"desc":"libwebsockets lightweight C networking library",
+"owner": { "name": "Andy Green", "email": "andy@warmcat.com", "md5": "c50933ca2aa61e0fe2c43d46bb6b59cb" },"url":"https://libwebsockets.org/repo/libwebsockets",
+"f":3,
+"items": [
+{ "schema":"libjg2-1",
+ "oid":{ "oid": "bca993f7ed08e27083ea76311e5c717363a2760c", "alias": [ "refs/heads/master"]},"tree": [ 
+{ "name": "READMEs","mode": "16384", "size":0},
+{ "name": "cmake","mode": "16384", "size":0},
+{ "name": "contrib","mode": "16384", "size":0},
+{ "name": "doc-assets","mode": "16384", "size":0},
+{ "name": "include","mode": "16384", "size":0},
+{ "name": "lib","mode": "16384", "size":0},
+{ "name": "lwsws","mode": "16384", "size":0},
+{ "name": "minimal-examples","mode": "16384", "size":0},
+{ "name": "plugin-standalone","mode": "16384", "size":0},
+{ "name": "plugins","mode": "16384", "size":0},
+{ "name": "scripts","mode": "16384", "size":0},
+{ "name": "test-apps","mode": "16384", "size":0},
+{ "name": "win32port","mode": "16384", "size":0},
+{ "name": ".gitignore","mode": "33188", "size":724},
+{ "name": ".mailmap","mode": "33188", "size":103},
+{ "name": ".travis.yml","mode": "33188", "size":3130},
+{ "name": "CMakeLists.txt","mode": "33188", "size":89374},
+{ "name": "Kconfig","mode": "33188", "size":857},
+{ "name": "LICENSE","mode": "33188", "size":2585},
+{ "name": "Makefile.projbuild","mode": "33188", "size":54},
+{ "name": "README.md","mode": "33188", "size":10248},
+{ "name": "appveyor.yml","mode": "33188", "size":3075},
+{ "name": "changelog","mode": "33188", "size":42341},
+{ "name": "component.mk","mode": "33188", "size":1659},
+{ "name": "libwebsockets.dox","mode": "33188", "size":14433}],"s":{"c":1575217508,"u":    3097}}
+,{"schema":"libjg2-1",
+"cid":"68eb63c5e2d96476721a64ac2323fdb9",
+"oid":{ "oid": "bca993f7ed08e27083ea76311e5c717363a2760c", "alias": [ "refs/heads/master"]},"blobname": "README.md", "blob": "[![Travis Build Status](https://travis-ci.org/warmcat/libwebsockets.svg)](https://travis-ci.org/warmcat/libwebsockets) [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/qfasji8mnfnd2r8t?svg\u003dtrue)](https://ci.appveyor.com/project/lws-team/libwebsockets) [![Coverity Scan Build Status](https://scan.coverity.com/projects/3576/badge.svg)](https://scan.coverity.com/projects/3576) [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/2266/badge)](https://bestpractices.coreinfrastructure.org/projects/2266) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/144fb195a83046e484a75c8b4c6cfc99)](https://www.codacy.com/app/lws-team/libwebsockets?utm_source\u003dgithub.com\u0026amp;utm_medium\u003dreferral\u0026amp;utm_content\u003dwarmcat/libwebsockets\u0026amp;utm_campaign\u003dBadge_Grade) [![Total alerts](https://img.shields.io/lgtm/alerts/g/warmcat/libwebsockets.svg?logo\u003dlgtm\u0026logoWidth\u003d18)](https://lgtm.com/projects/g/warmcat/libwebsockets/alerts/) [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/warmcat/libwebsockets.svg?logo\u003dlgtm\u0026logoWidth\u003d18)](https://lgtm.com/projects/g/warmcat/libwebsockets/context:cpp) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/warmcat/libwebsockets.svg?logo\u003dlgtm\u0026logoWidth\u003d18)](https://lgtm.com/projects/g/warmcat/libwebsockets/context:javascript)\n\n# Libwebsockets\n\nLibwebsockets is a simple-to-use, pure C library providing client and server\nfor **http/1**, **http/2**, **websockets** and other protocols in a security-minded,\nlightweight, configurable, scalable and flexible way.  It's easy to build and\ncross-build via cmake and is suitable for tasks from embedded RTOS through mass\ncloud serving.\n\n[50 minimal examples](https://libwebsockets.org/git/libwebsockets/tree/minimal-examples) for\nvarious scenarios, CC0-licensed (public domain) for cut-and-paste, allow you to get started quickly.\n\n![overview](./doc-assets/lws-overview.png)\n\nNews\n----\n\n## `lws_system`: DHCP client\n\nDHCP client is now another network service that can be integrated into lws, with\n`LWS_WITH_SYS_DHCP_CLIENT` at CMake.  When enabled, the `lws_system` state\nis held at `DHCP` until at least one registered network interface acquires a\nusable set of DHCP information including ip, subnet mask, router / gateway\naddress and at least one DNS server.\n\nSee the [api-test-dhcp](https://libwebsockets.org/git/libwebsockets/tree/minimal-examples/api-tests/api-test-dhcpc) Minimal Example for how to use.\n\n## UDP integration with `lws_retry`\n\nUDP support in lws has new helper that allow `lws_retry` to be applied for retry,\nand the ability to synthesize rx and tx udp packetloss systemwide to confirm\nretry strategies.  Since multiple transactions may be in flight on one UDP\nsocket, the support relies on an `lws_sul` in the transaction object to manage\nthe transaction retries individually.\n\nSee `READMEs/README.udp.md` for details.\n\n## `lws_system`: system state and notification handlers\n\nLws now has the concept of systemwide state held in the context... this is to\nmanage that there may be multiple steps that need the network before it's possible\nfor the user code to operate normally.  The steps defined are\n\n`CONTEXT_CREATED`, `INITIALIZED`, `IFACE_COLDPLUG`, `DHCP`, `TIME_VALID`, `POLICY_VALID`,\n`REGISTERED`, `AUTH1`, `AUTH2`, `OPERATIONAL` and `POLICY_INVALID`.  OPERATIONAL is the\nstate where user code can run normally.\n\nUser and other parts of lws can hook notifier callbacks to receive and be able to\nveto system state changes, either definitively or because they have been triggered\nto perform a step asynchronously and will move the state on themselves when it\ncompletes.\n\nBy default just after context creation, lws attempts to move straight to OPERATIONAL.\nIf no notifier interecepts it, it will succeed to do that and operate in a\nbackwards-compatible way.  Enabling various features like lws ntpclient also enable\nnotifiers that hold progress at the related state until their operation completes\nsuccessfully, eg, not able to enter `TIME_VALID` until ntpclient has the time.\n\nSee `READMEs/README.lws_system.md` for details.\n\n## `lws_system`: HAL ops struct\n\nLws allows you to define a standardized ops struct at context creation time so your\nuser code can get various information like device serial number without embedding\nsystem-specific code throughout the user code.  It can also perform some generic\nfunctions like requesting a device reboot.\n\nSee `READMEs/README.lws_system.md` for details.\n\n## `lws_system`: ntpclient\n\nOptional lws system service enabled by cmake `-DLWS_WITH_SYS_NTPCLIENT` intercepts\nthe `lws_system` `TIME_VALID` state and performs ntpclient to get the date and time\nbefore entering `TIME_VALID`.  This allows user code to validate tls certificates\ncorrectly knowing the current date and time by the time it reached OPERATIONAL.\n\n## Connection Validity tracking\n\nLws now allows you to apply a policy for how long a network connection may go\nwithout seeing something on it that confirms it's still valid in the sense of\npassing traffic cohernetly both ways.  There's a global policy in the context\nwhich defaults to 5m before it produces a PING if possible, and 5m10 before\nthe connection will be hung up, user code can override this in the context,\nvhost (for server) and client connection info (for client).\n\nAn api `lws_validity_confirmed(wsi)` is provided so user code can indicate\nthat it observed traffic that must mean the connection is passing traffic in\nboth directions to and from the peer.  In the absence of these confirmations\nlws will generate PINGs and take PONGs as the indication of validity.\n\n## `lws_system`: Async DNS support\n\nMaster now provides optional Asynchronous (ie, nonblocking) recursive DNS resolving.\nEnable with `-DLWS_WITH_SYS_ASYNC_DNS\u003d1` at cmake.  This provides a quite\nsophisticated ipv4 + ipv6 capable resolver that autodetects the dns server on\nseveral platforms and operates a UDP socket to its port 53 to produce and parse DNS\npackets from the event loop.  And of course, it's extremely compact.\n\nIt broadly follows the getaddrinfo style api, but instead of creating the results\non the heap for each caller, it caches a single result according to the TTL and\nthen provides refcounted const pointers to the cached result to callers.  While\nthere are references on the cached result it can't be reaped.\n\nSee `READMEs/README.async-dns.md` for detailed information on how it works, along\nwith `api-tests/api-test-async-dns` minimal example.\n\n## Detailed Latency\n\nYou can now opt to measure and store us-resolution statistics on effective\nlatencies for client operations, and easily spool them to a file in a\nformat suitable for gnuplot, or handle in your own callback.  Enable\n`-DLWS_WITH_DETAILED_LATENCY\u003d1` in cmake to build it into lws.\n\nIf you are concerned about operation latency or potential blocking from\nuser code, or behaviour under load, or latency variability on specific\nplatforms, you can get real numbers on your platform using this.\n\nTimings for all aspects of events on connections are recorded, including\nthe time needed for name resolution, setting up the connection, tls\nnegotiation on both client and server sides, and each read and write.\n\nSee `READMEs/README.detailed-latency.md` for how to use it.\n\n## Client connection logic rewrite\n\nLws master now makes much better use of the DNS results for ipv4 and ipv6... it\nwill iterate through them automatically making the best use it can of what's\nprovided and attempting new connections for each potentially usable one in turn\nbefore giving up on the whole client connection attempt.\n\nIf ipv6 is disabled at cmake it can only use A / ipv4 records, but if ipv6 is\nenabled, it tries both; if only ipv6 is enabled it promotes ipv4 to\n::ffff:1.2.3.4 IPv4-in-IPv6 addresses.\n\n## New network helpers for ipv4 and ipv6\n\nAn internal union `lws_sockaddr46` that combines `struct sockaddr_in` and\n`struct sockaddr_in6` is now public, and there are helpers that can parse (using\n`lws_tokenize`) any valid numeric representation for ipv4 and ipv6 either\ninto byte arrays and lengths, or directly to and from `lws_sockaddr46`.\n\n## h2 long poll support\n\nLws now supports the convention that half-closing an h2 http stream may make\nthe stream 'immortal', in terms of not being bound by normal timeouts.  For\nthe client side, there's an api that can be applied to the client stream to\nmake it transition to this \u0022read-only\u0022 long poll mode.\n\nSee `READMEs/README.h2-long-poll.md` for full details, including how to test\nit with the minimal examples.\n\n## h1 client parser improvements\n\nH1 is not so simple to parse because the header length is not known until it\nhas been fully parsed.  The next header, or http body may be directly coalesced\nwith the header as well.  Lws has supported bulk h1 parsing from a buffer for a\nlong time, but on clientside due to interactions with http proxying it had\nbeen stuck parsing the header bytewise out of the tls buffer.  In master,\neverything now bulk parses from a buffer and uses a buflist to pass leftovers\nthrough the event loop cleanly.\n\n## `lws_sul` time refactor\n\nJust before v3.2 there was a big refactor about how lws handles time.  It now\nexplicitly schedules anything that may happen in the future on a single, sorted\nlinked-list, at us resolution.  When entering a poll wait (or returning to an\nevent lib loop) it checks the interval between now and the earliest event on the\nlist to figure out how long to wait if there are no network events.  For the\nevent loop case, it sets a native event lib timer to enforce it.\n\nSee `READMEs/README.lws_sul.md` for more details and a handy api where you can\nschedule your own arbitrary callbacks using this system.\n\n## Master is now MIT-licensed\n\nLibwebsockets master is now under the MIT license. See ./LICENSE.\n\n## Support\n\nThis is the libwebsockets C library for lightweight websocket clients and\nservers.  For support, visit\n\n https://libwebsockets.org\n\nand consider joining the project mailing list at\n\n https://libwebsockets.org/mailman/listinfo/libwebsockets\n\nYou can get the latest version of the library from git:\n\n- https://libwebsockets.org/git\n\nDoxygen API docs for master: https://libwebsockets.org/lws-api-doc-master/html/index.html\n\n","s":{"c":1575217508,"u":    3592}}
+],"g":    5504,"chitpc":       0,"ehitpc":       0,
+ "indexed":0
+}
+
+
+</div>
+
+<!-- libjsongit2 continues with the rest of this file afterwards -->
+<div class="jg2-footer footer-region">
+<table><tr><td><a href="https://warmcat.com/git/gitohashi">
+        <span><img class="gitohashi-icon"></span></a>
+	</td><td><div class="gitohashi-stats" id="gitohashi-stats"></div></td></tr>
+</table>
+</div>
+</html>
+
