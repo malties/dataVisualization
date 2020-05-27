@@ -5,14 +5,14 @@ Features:
 *  Easy to use Traffic Visualizer Interface
 *  View walking routes, bus routes and bottlenecks in the Gothenburg area 
 *  Navigation control: Zoom in/out on map, switch map view
-*  paue and unpause lines showing up in the map
+*  pasue and unpause lines showing up in the map
 
 
 Purpose:
-*  Enables Västtrafik staff:
+*  Enables Västtrafik staff to:
 * 	⭒Determine routes that are frequently used and routes that do not exist
 * 	⭒View insights on bus stop placements
-*  Enables City Planner:
+*  Enables City Planner to:
 * 	⭒View road usage and frequency of use
 * 	⭒View route statistics and crowd levels
 
