@@ -1,5 +1,14 @@
 ⛤ Traffic Visualizer ⛤
-A university project designed by Nafen Haj Ahmad, Shab Pompeiano, Stanko Janković, Adelric Wong, Hassan Mualla, and Hannah Maltkvist.
+
+A university project designed by 
+<a href="https://github.com/malties"> <img src="https://avatars1.githubusercontent.com/u/43722564?s=460&v=4" width="17" height="17"> Hannah Maltkvist</a> <br/>
+<a href="https://github.com/nafenk"> <img src="https://avatars0.githubusercontent.com/u/44115545?s=460&v=4" width="17" height="17"> Nafen Haj Ahmad</a> <br/>
+<a href="https://github.com/Gusmuaha"> <img src="https://avatars2.githubusercontent.com/u/43820542?s=460&v=4" width="17" height="17"> Hassan Mualla</a> <br/>
+<a href="https://github.com/Shab98"> <img src="https://avatars2.githubusercontent.com/u/45070337?s=460&v=4" width="17" height="17"> Shab Pompeiano</a>
+
+
+
+ Stanko Janković, Adelric Wong, 
 
 Features:
 *  Easy to use Traffic Visualizer Interface
