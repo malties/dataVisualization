@@ -49,3 +49,11 @@ The Visualiser works by taking the information relayed from the broker once it
 has gone through the next component, which filters that data. The visualiser presents that data by a line on
 the map. From here you can see how the density of requests to and from certain
 areas builds over time.
+
+# How to run:
+
+Once you've cloned the repo:
+1. Navigate into the api-caller folder and run "python3 communicator.py"
+2. In a new window, navigate into the generator folder and run "python3 publisher.py"
+3. Open map.HTML in your browser window
+4. Watch the lines start to show up across the screen! 
